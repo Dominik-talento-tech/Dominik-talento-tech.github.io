@@ -1,0 +1,118 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Layout',
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+        textTheme: const TextTheme(
+          headlineMedium: TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 184, 180, 192),
+            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(),
+          labelStyle: TextStyle(color: Color.fromARGB(255, 137, 93, 212)),
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Colors.deepPurple,
+        ),
+      ),
+      home: const HomePage(title: 'Programa Layout'),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final TextEditingController _controller = TextEditingController();
+
+  void _showSnackbar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color.fromARGB(255, 195, 146, 204), Colors.blue, Colors.green],
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Layout Superior', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    labelText: 'Digite algo',
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    _showSnackbar(context, _controller.text);
+                    _controller.clear();
+                  },
+                  child: const Text('Enviar'),
+                ),
+                const SizedBox(height: 20),
+                // ignore: prefer_const_constructors
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: const [
+                    Text('', style: TextStyle(fontSize: 16, color: Colors.white)),
+                    Text('            Meu aplicativo', style: TextStyle(fontSize: 16, color: Colors.white)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
